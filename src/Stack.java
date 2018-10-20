@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 /**
  * Class Description:
  * @author Ian Bryan
@@ -13,44 +15,36 @@ public class Stack {
 	 * The private object array is designed to act as a list of "layers"
 	 * that are added in order from bottom-to-top (L.I.F.O)
 	 * */
-	private Object[] stackArr = new Object[10];
+	private Object[] stack = new Object[1];
 	private int top = 0;
-	private int numOfLayers;
-	private boolean emptyLayer = false;
 
-	//Objects pushed onto/into stack are added on top of the previous layer
-	//Statement will first check if space is available, if not then let the user know it's full.
+	//If the stack is empty, add the new Object to the only available position
+	//If the stack has other values, add it as the top layer
 	public void push(Object aLayer){
-		if(top + 1 < numOfLayers){
-			top++;
-			stackArr[top] = aLayer;
-			System.out.println("the layer: " + aLayer + " was pushed successfully");
-		} else {System.out.println("stack full");}
-		//resize
+		if(stack.length == 0){
+			stack[0] = aLayer;
+		}else{
+			Object[] newListOfObjects = new Object[stack.length+1];
+			System.arraycopy(stack, 0, newListOfObjects, 0, stack.length);
+			newListOfObjects[newListOfObjects.length-1] = aLayer;
+			stack = newListOfObjects;
+		}
 	}
 
 	//Similar to peek() but instead returns the object
 	//and then __removes__ that layer. 
 	public Object pop(){
-		if(top >= 0){
-			//As long as top is a valid integer between 0-infinity
-			//then return (pop) the value of what is removed from the top most layer.
-			System.out.println("the layer: " + stackArr[top] + 
-					" has been removed successfully");
-			return stackArr[top--];
-		} else {
-
-			System.out.println("no layers, stack is empty");
-
-			return "-1";
-		}
+		Object poppedItem = stack[top--];
+		Object[] newListOfObjects = Arrays.copyOf(stack, stack.length-1);
+		stack = newListOfObjects;
+		return poppedItem;
 	}
 
 	//Similar to ppop() but does not manipulate the layer
 	//in order for the user to see the item at the position
 	public Object peek(){
-		System.out.println("top layer: " + stackArr[top]);
-		return stackArr[top];
+		System.out.println("top layer: " + stack[top]);
+		return stack[top];
 	}
 
 	//Simple display method that is handy for when 
@@ -58,7 +52,7 @@ public class Stack {
 	//Used mostly for when the stack is full or when many items are pushed and 
 	//the stack needs to be checked.
 	public void show(){
-		for(Object i : stackArr){
+		for(Object i : stack){
 			System.out.println(i + " ");
 		}
 	}
@@ -67,42 +61,41 @@ public class Stack {
 	//If some attributes about each stack are the same
 	//then they must be equal. 
 	public boolean equal(Object that){
-		if(this.numOfLayers == ((Stack)that).numOfLayers 
-				&& this.stackArr == ((Stack)that).stackArr){
-			return true;
-		}else{
-			return false;
+		boolean areEqual = true;
+		for(int i=0;i<stack.length;i++){
+			if(stack[i] != ((Queue)that).get(i)){
+				areEqual = false;
+			}
 		}
+		return areEqual;
 	}
-	
+
 	//Similar to the isEmpty() method in ArrayListLike
 	//this will iterate over the list of Objects
 	//in the stack and check if any ordinal are empty
 	public boolean isEmpty(){
-		for(int i=0;i<stackArr.length;i++){
-			if(stackArr[i] == null){
-				emptyLayer = true;
-			}else{
-				emptyLayer = false;
+		boolean emptyList = true;
+		for(int i=0;i<stack.length;i++){
+			if(stack[i] != null){
+				emptyList = false;
 			}
 		}
-		return emptyLayer;
+		return emptyList;
 	}
-	
+
 	//Grab the size of the stack
 	public int size(){
-		return stackArr.length;
+		return stack.length;
 	}
 
 	//Similar to the `String retVal = "";` method,
 	//StringBuilder here simply builds a String from the
 	//items layered in the stack as they are iterated through
 	public String toString(){
-		StringBuilder sb = new StringBuilder();
-
-		while(stackArr[top] != null){
-			sb.append(" ").append(stackArr[top]);
+		String retVal = "";
+		for(int i=0;i<stack.length;i++){
+			retVal += stack[i] + "\n";
 		}
-		return sb.toString();
+		return retVal;
 	}
 }

@@ -26,18 +26,18 @@ public class ArrayListLike {
 			System.out.println("Index is out of bounds");
 		}else if(index < listOfObjects.length-1){
 			//Declaring the required data members local to this method
-			Object[] rhs = new Object[index+1];
-			Object[] lhs = new Object[listOfObjects.length-index];
+			Object[] lhs = new Object[index+1];
+			Object[] rhs = new Object[listOfObjects.length-index];
 			Object[] newListOfObjects = new Object[listOfObjects.length+1];
 			//Copy the first section to the right, the rest to the left
 			//Then replace the end of the right side with the new Object
-			System.arraycopy(listOfObjects, 0, rhs, 0, rhs.length);
-			System.arraycopy(listOfObjects, index, lhs, 0, lhs.length);
-			rhs[rhs.length-1] = seenItem;
+			System.arraycopy(listOfObjects, 0, lhs, 0, lhs.length);
+			System.arraycopy(listOfObjects, index, rhs, 0, rhs.length);
+			lhs[lhs.length-1] = seenItem;
 			//Copy the right and left into the newList which is +1 > originalList
 			//Set the "old" equal to the new
-			System.arraycopy(rhs, 0, newListOfObjects, 0, rhs.length);
-			System.arraycopy(lhs, 0, newListOfObjects, rhs.length, lhs.length);
+			System.arraycopy(lhs, 0, newListOfObjects, 0, lhs.length);
+			System.arraycopy(rhs, 0, newListOfObjects, lhs.length, rhs.length);
 			listOfObjects = newListOfObjects;
 		}else{
 			//A new list is made with size+1 of the previous

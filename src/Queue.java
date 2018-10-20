@@ -7,82 +7,84 @@
  * */
 public class Queue {
 
-	/*
-	 * 
-    void enqueue(Object)
-    Object dequeue()
-    int size()
-    String toString()
-    boolean isEmpty()
-    boolean equals(Object)
-	 */
-
 	/*Data Members*/
-	private Object[] queueArr = new Object[1];
-	private int next;
-	private int numQueues = 0;
-	private int last = 0;
-	private int queueSize;
+	private Object[] queue = new Object[1];
+	private int head, tail;
 
-	//Similar to the Stack interface if the number of queues
-	//+1 is less than the size, then a space is available
-	//and place the new item in that space.
-	public void enqueue(Object nextQueue){
-		if(numQueues + 1 < queueSize){
-			queueArr[last] = nextQueue;
-			last++;
-			numQueues++;
-			System.out.println("the item: " + queueArr[last] + " was added successfully");
-		} else {
-			//resize();
-			System.out.println("queue full");
+	//A new list is made with size+1 of the previous
+	//Then, copy the "old" list to the new one and add the new
+	//object at the end (len-1)
+	public void enqueue(Object next) 
+	{
+		if(queue[0] == null){
+			queue[0] = next;
+		}else{
+			Object[] newQueue = new Object[queue.length+1];
+			System.arraycopy(queue, 0, newQueue, 0, queue.length);
+			newQueue[newQueue.length-1] = next;
+			queue = newQueue;
 		}
-	}
+	} 
 
-	//Return the latest item(s) in FIFO format
-	public Object dequeue(){
-			next++;
-			numQueues--;
-			return queueArr[next];
+	//Store the object at the requested index, then override it with a null value.
+	//Everything is copied over to new array, then old is set to new
+	public Object dequeue()
+	{	
+		Object frontItem = queue[head];
+		queue[head] = null;
+		Object[] newQueue = new Object[queue.length+1];
+		System.arraycopy(queue, 0, newQueue, 1, queue.length);
+		queue = newQueue;
+		return frontItem;
 	}
 
 	//Return the object that occupies the current space
 	//without actually manipulating the list
 	public Object peek(){
-		return queueArr[next];
+		return queue[head];
 	}
 
-	public boolean equal(Object that){
-		if(this.numQueues == ((Queue)that).numQueues
-				&& this.queueArr == ((Queue)that).queueArr){
-			return true;
-		}else{
-			return false;
+	public boolean equals(Object that){
+		boolean areEqual = true;
+		for(int i=0;i<queue.length;i++){
+			if(queue[i] != ((Queue)that).get(i)){
+				areEqual = false;
+			}
 		}
+		return areEqual;
+	}
+
+	//Returning an object at the requested index position
+	public Object get(int index){
+		return queue[index];
 	}
 
 	//Grab the size, then return it.
 	public int size(){
-		return queueArr.length;
+		return queue.length;
 	}
-	
-	//Check for if any spots are null, and if so then that space is empty.
+
+	//Checking the condition that the length
+	//does not equal zero and all positions have a value
 	public boolean isEmpty(){
-		for(int i=0;i<queueArr.length;i++){
-			if(queueArr[i] == null){
-				return true;
+		boolean isNullList = false;
+		for(int i=0;i<queue.length;i++){
+			if(queue[i] != null){
+				isNullList = false;
+			}else{
+				isNullList = true;
 			}
 		}
-		return false;
+		return isNullList;
 	}
-	
-	//Build a string from all the objects
-	public String toString(){
-		StringBuilder sb = new StringBuilder();
 
-		while(queueArr[next] != null){
-			sb.append(" ").append(queueArr[next]);
+	//Build a string from all the objects
+	@Override
+	public String toString(){
+		String retVal = "";
+		for(int i=0;i<queue.length;i++){
+			retVal += queue[i] + "\n";
 		}
-		return sb.toString();
+		return retVal;
 	}
 }

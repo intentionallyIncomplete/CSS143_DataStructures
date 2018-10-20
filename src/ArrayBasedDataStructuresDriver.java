@@ -11,8 +11,8 @@
 public class ArrayBasedDataStructuresDriver {
 
 	public static void main(String[] args) {
-		//stackTests();
-		queueTests();
+		stackTests();
+		//queueTests();
 		///arrayListTests();
 	}
 
@@ -42,33 +42,40 @@ public class ArrayBasedDataStructuresDriver {
 	}
 
 	private static void queueTests() {
-		//todo: make more tests here
+		
 		Queue a = new Queue();
+		Queue b = new Queue();
 		
 		a.enqueue('B');
 		a.enqueue('a');
 		a.enqueue('t');
-		
+//		System.out.println("Dequeue: " + a.dequeue() + " from the queue");
+//		a.enqueue('s');
+//		System.out.println("Dequeue: " + a.dequeue() + " from the queue");
+		b.enqueue('B');
+		b.enqueue('a');
+		b.enqueue('t');
+		/**/
+//		b.enqueue('g');
+//		b.enqueue('g');
+//		b.enqueue('m');
+//		b.enqueue('8');
+//		b.enqueue('9');
+//		b.enqueue('f');
+		//System.out.println("Dequeue: " + a.dequeue() + " from the queue");
+		//System.out.println("Dequeue: " + a.dequeue() + " from the queue");
+		System.out.println("A queue equal to B queue: " + a.equals(b));
 		System.out.println(a.toString());
-		
-		while(a.isEmpty() == false) {
-			System.out.println(a.dequeue());
-		}
 
 	}
 
 	private static void stackTests() {
-		//todo: make more tests here
 		Stack a = new Stack();
 		
-		a.push('B');
-		a.push('a');
-		a.push('t');
+		//a.push('B');
+		//a.push('a');
+		//a.push('t');
 		
 		System.out.println(a.toString());
-		
-		while(a.isEmpty() == false) {
-			System.out.println(a.pop());
-		}
 	}
 }
