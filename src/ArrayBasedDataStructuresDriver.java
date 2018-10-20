@@ -12,13 +12,13 @@ public class ArrayBasedDataStructuresDriver {
 
 	public static void main(String[] args) {
 		//stackTests();
-		//queueTests();
-		arrayListTests();
+		queueTests();
+		///arrayListTests();
 	}
 
 	private static void arrayListTests() {
 		ArrayListLike a = new ArrayListLike();
-		
+		ArrayListLike b = new ArrayListLike();
 		//Add some items
 		a.insert('A', 0);
 		a.insert('B',1);
@@ -26,12 +26,19 @@ public class ArrayBasedDataStructuresDriver {
 		a.insert('D', 3);
 		a.insert('E', 4);
 		a.insert('x',2); //Will insert at the position and move everything over
-		a.insert('X',4); //same as above
+		a.insert('X',4);
 		//Remove some items
-		a.remove(0);
 		a.remove(1);
-		System.out.println(a.toString());
 		
+		b.insert('C',0);
+		b.insert('D', 1);
+		b.insert('E', 2);
+		System.out.println("A is equal to B: " + a.equals(b));
+		System.out.println("A is empty: " + a.isEmpty());
+		System.out.println("index of C: " + a.indexOf('C'));
+		System.out.println("size() of a: " + a.size() + ", and b: " + b.size());
+		System.out.println("Getting index of 'c' using get(): " + a.get(2));
+		System.out.println(a.toString());
 	}
 
 	private static void queueTests() {

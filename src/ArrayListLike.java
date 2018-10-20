@@ -1,3 +1,4 @@
+import java.util.Arrays;
 /**
  * Class Description:
  * 
@@ -23,7 +24,7 @@ public class ArrayListLike {
 			listOfObjects[0] = seenItem;
 		}else if(index > listOfObjects.length){
 			System.out.println("Index is out of bounds");
-		}else if(index <= listOfObjects.length-1){
+		}else if(index < listOfObjects.length-1){
 			//Declaring the required data members local to this method
 			Object[] rhs = new Object[index+1];
 			Object[] lhs = new Object[listOfObjects.length-index];
@@ -39,7 +40,9 @@ public class ArrayListLike {
 			System.arraycopy(lhs, 0, newListOfObjects, rhs.length, lhs.length);
 			listOfObjects = newListOfObjects;
 		}else{
-			//
+			//A new list is made with size+1 of the previous
+			//Then, copy the "old" list to the new one and add the new
+			//object at the end (len-1)
 			Object[] newListOfObjects = new Object[listOfObjects.length+1];
 			System.arraycopy(listOfObjects, 0, newListOfObjects, 0, listOfObjects.length);
 			newListOfObjects[newListOfObjects.length-1] = seenItem;
@@ -49,12 +52,29 @@ public class ArrayListLike {
 
 	//Remove an Object from the list of Objects
 	public Object remove(int index){
-		Object itemRemoved = null;
-		for(int i=0;i<=index;i++){
-			itemRemoved = listOfObjects[i];
-			listOfObjects[i] = null;
+		Object itemStorage = listOfObjects[index];
+		listOfObjects[index] = null;
+		int nonNullSize = 0;
+		for(int i=0;i<listOfObjects.length;i++){
+			if(listOfObjects[i] != null){
+				nonNullSize++;
+			}
+		}//end calculating size
+		
+		Object[] newListOfObjects = new Object[nonNullSize];
+		int nonNullIndex = 0;
+		for (int j = 0; j < listOfObjects.length; j++) {
+		    if (listOfObjects[j] != null) {
+		        newListOfObjects[nonNullIndex] = listOfObjects[j];
+		        nonNullIndex++;
+		    }
 		}
-		return itemRemoved;
+		//Copy new list into the old as far as the nonNull indices
+		//Finally, set original list to values of the new list
+		//System.arraycopy(newListOfObjects, 0, listOfObjects, 0, nonNullIndex);
+		//newListOfObjects = Arrays.copyOf(listOfObjects, nonNullIndex);
+		listOfObjects = newListOfObjects;
+		return itemStorage;
 	}
 
 	//Return the seen number of elements in the current list
@@ -73,36 +93,39 @@ public class ArrayListLike {
 	}
 
 	//Boolean condition module checks for empty list
-//	public boolean isEmpty(){
-//		for(int i=0;i<listOfObjects.length;i++){
-//			if(listOfObjects[i] != null){
-//				return false;
-//			}
-//		}
-//		return true;
-//	}
+	//Since remove() trims the null value indices
+	//this module returns true only if there is no value
+	//in the first firsts index
+	public boolean isEmpty(){
+		if(listOfObjects[0] != null){
+			return false;
+		}else{
+			return true;
+		}
+	}
 
 	//Finding the index of an Object within the list, then return that index's numerical position
 	public int indexOf(Object targetObj){
 		for(int i=0;i<listOfObjects.length;i++){
-			if(listOfObjects[i] == ((ArrayListLike)targetObj).get(i)){
+			if(listOfObjects[i] == targetObj){
 				return i;
-			}else{
-				System.out.print("No item found by that value");
-				return -1;
 			}
 		}
 		return -1;
 	}
 
 	//Checking for if given item matches another
-	public boolean equals(Object otherObject){
-		for(int i=0;i<listOfObjects.length;i++){
-			if(listOfObjects[i] == otherObject){
-				return true;
-			}else{
-				return false;
+	
+	//@Override
+	public boolean equals(Object that){
+		if(this.size() == ((ArrayListLike)that).size()){
+			for(int i=0;i<listOfObjects.length;i++){
+				if(this.listOfObjects[i] == that){
+					return true;
+				}
 			}
+		}else{
+			return false;
 		}
 		return false;
 	}

@@ -18,7 +18,7 @@ public class Queue {
 	 */
 
 	/*Data Members*/
-	private Object[] queueArr = new Object[10];
+	private Object[] queueArr = new Object[1];
 	private int next;
 	private int numQueues = 0;
 	private int last = 0;
@@ -33,7 +33,6 @@ public class Queue {
 			last++;
 			numQueues++;
 			System.out.println("the item: " + queueArr[last] + " was added successfully");
-
 		} else {
 			//resize();
 			System.out.println("queue full");
